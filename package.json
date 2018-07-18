@@ -1,0 +1,27 @@
+{
+  "name": "nodejs_restapi",
+  "version": "1.0.0",
+  "description": "A Node.js RESTful API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mazgagan/nodeJS_RESTapi.git"
+  },
+  "keywords": [
+    "node",
+    "restful",
+    "api"
+  ],
+  "author": "Gagandeep Mazumder",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mazgagan/nodeJS_RESTapi/issues"
+  },
+  "homepage": "https://github.com/mazgagan/nodeJS_RESTapi#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
