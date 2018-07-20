@@ -6,11 +6,10 @@ const express = require('express');
 //spin up the express application
 const app = express();
 
+const productRoutes = require('./Api/routes/products');
+const orderRoutes = require('./Api/routes/orders');
 //an incoming request has to go through app.use
-app.use((req, res, next) => {
-    res.status(200).json({
-        message: "It works!"
-    });
-});
+app.use('/products', productRoutes);
+app.use('/orders', orderRoutes);
 
 module.exports = app;
