@@ -8,13 +8,33 @@ const express = require('express');
 //spin up the express application
 const app = express();
 
+//use morgan for logging incoming requetsin console
 const morgan = require('morgan');
+
+//body-parser to parse incoming requests
+const bodyParser = require('body-parser');
 
 const productRoutes = require('./Api/routes/products');
 const orderRoutes = require('./Api/routes/orders');
 
 //an incoming request has to go through app.use
 app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+//to add headers to all response. This will not send a response though
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    if (req.message === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+        return res.status(200).json({});
+    }
+    next();
+})
+
 // incoming routes
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
