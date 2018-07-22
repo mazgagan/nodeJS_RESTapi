@@ -4,7 +4,8 @@
   "description": "A Node.js RESTful API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,10 @@
   },
   "homepage": "https://github.com/mazgagan/nodeJS_RESTapi#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
   }
 }
