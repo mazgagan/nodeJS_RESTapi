@@ -14,6 +14,16 @@ const morgan = require('morgan');
 //body-parser to parse incoming requests
 const bodyParser = require('body-parser');
 
+//momgoose for mongodb connection
+const mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://gagan:gagan@cluster0-cb0uh.mongodb.net/test?retryWrites=true', {
+    useNewUrlParser: true
+});
+// mongoose.connect('mongodb://mazgagan' + process.env.MONGO_ATLAS_PW +
+//     '@cluster0-shard-00-00-cb0uh.mongodb.net:27017,cluster0-shard-00-01-cb0uh.mongodb.net:27017,cluster0-shard-00-02-cb0uh.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true', {
+//         uri_decode_auth: true
+//     });
+
 const productRoutes = require('./Api/routes/products');
 const orderRoutes = require('./Api/routes/orders');
 

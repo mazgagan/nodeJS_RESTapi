@@ -24,6 +24,7 @@
   "homepage": "https://github.com/mazgagan/nodeJS_RESTapi#readme",
   "dependencies": {
     "express": "^4.16.3",
+    "mongoose": "^5.2.4",
     "morgan": "^1.9.0"
   },
   "devDependencies": {
