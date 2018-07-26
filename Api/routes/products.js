@@ -16,9 +16,20 @@ router.get('/', (req, res, next) => {
         .select("name price  _id")
         .exec()
         .then(docs => {
+            const hostname = req.hostname;
             const response = {
                 count: docs.length,
-                products: docs
+                products: docs.map(doc => {
+                    return {
+                        name: doc.name,
+                        price: doc.price,
+                        _id: doc.id,
+                        request: {
+                            type: 'GET',
+                            url: 'http://' + hostname + '/products'
+                        }
+                    }
+                })
             };
             console.log(docs);
             if (docs.length >= 0) {
