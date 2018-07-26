@@ -26,7 +26,7 @@ router.get('/', (req, res, next) => {
                         _id: doc.id,
                         request: {
                             type: 'GET',
-                            url: 'http://' + hostname + '/products'
+                            url: "http://" + hostname + "/products/" + doc._id
                         }
                     }
                 })
@@ -49,6 +49,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.post("/", (req, res, next) => {
+    const hostname = req.hostname;
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
@@ -63,8 +64,16 @@ router.post("/", (req, res, next) => {
         .then(result => {
             console.log(result);
             res.status(201).json({
-                message: "Handling POST requests in products",
-                createdProduct: result
+                message: "Created product successfully",
+                createdProduct: {
+                    name: result.name,
+                    price: result.price,
+                    _id: result._id,
+                    request: {
+                        type: 'GET',
+                        url: "http://" + hostname + "/products/" + result._id
+                    }
+                }
             });
         })
         .catch(err => {
@@ -83,10 +92,14 @@ router.get('/:productId', (req, res, next) => {
         .then(doc => {
             console.log("From database", doc);
             if (doc) {
-                res.status(200).json(doc);
+                res.status(200).json({
+                    name: doc.name,
+                    price: doc.price,
+                    _id: doc._id
+                });
             } else {
                 res.status(404).json({
-                    message: 'No valid entr found for the provided ID'
+                    message: 'No valid entry found for the provided ID'
                 });
             }
         })
@@ -98,6 +111,7 @@ router.get('/:productId', (req, res, next) => {
 
 router.patch('/:productId', (req, res, next) => {
     const id = req.params.productId;
+    const hostname = req.hostname;
     const updateOps = {};
     for (const ops of req.body) {
         updateOps[ops.propName] = ops.value;
@@ -106,7 +120,13 @@ router.patch('/:productId', (req, res, next) => {
         .exec()
         .then(result => {
             console.log(result);
-            res.status(200).json(result);
+            res.status(200).json({
+                message: "Produce updated",
+                request: {
+                    type: 'GET',
+                    url: 'http://' + hostname + "/products/" + id
+                }
+            });
         })
         .catch(err => {
             console.log(err);
@@ -121,7 +141,9 @@ router.delete('/:productId', (req, res, next) => {
     Product.remove({ _id: id })
         .exec()
         .then(result => {
-            res.status(200).json(result);
+            res.status(200).json({
+                message: "Product deleted"
+            });
         })
         .catch(err => {
             console.log(err);
