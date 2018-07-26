@@ -10,12 +10,19 @@ router.get('/', (req, res, next) => {
     //you can alsoa dd more queryParameters here
     //like find().where() to add more conditions to the query
     //like find().limit() to only fetch a smaller number and you can manually implement some pagination
+    //.select() is used to select teh fields that is to be shown in response.
+    //.select() overwrites teh default fields displayed
     Product.find()
+        .select("name price  _id")
         .exec()
         .then(docs => {
+            const response = {
+                count: docs.length,
+                products: docs
+            };
             console.log(docs);
             if (docs.length >= 0) {
-                res.status(200).json(docs);
+                res.status(200).json(response);
             } else {
                 res.status(200).json({
                     message: 'No entries found'
