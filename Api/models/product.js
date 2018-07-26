@@ -4,8 +4,8 @@ This file is to define how a product should look like for mongodb.
 const mongoose = require('mongoose');
 const productSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    name: String,
-    price: Number
+    name: { type: String, required: true },
+    price: { type: Number, required: true }
 });
 
 //now we need to export the schema wrapped into a model.
