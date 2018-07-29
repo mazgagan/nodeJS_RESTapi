@@ -84,7 +84,11 @@ router.get('/:orderId', (req, res, next) => {
                 })
             } else {
                 return res.status(200).json({
-                    order: order,
+                    order: {
+                        quantity: order.quantity,
+                        _id: order._id,
+                        product: order.product
+                    },
                     request: {
                         type: 'GET',
                         url: 'http://' + hostname + '/orders/'
