@@ -43,7 +43,7 @@ router.get('/', (req, res, next) => {
     //.select() is used to select teh fields that is to be shown in response.
     //.select() overwrites teh default fields displayed
     Product.find()
-        .select("name price  _id")
+        .select("name price  _id productImage")
         .exec()
         .then(docs => {
             const hostname = req.hostname;
@@ -54,6 +54,7 @@ router.get('/', (req, res, next) => {
                         name: doc.name,
                         price: doc.price,
                         _id: doc.id,
+                        productImage: doc.productImage,
                         request: {
                             type: 'GET',
                             url: "http://" + hostname + "/products/" + doc._id
@@ -84,11 +85,12 @@ router.post("/", upload.single('productImage'), (req, res, next) => {
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        price: req.body.price
+        price: req.body.price,
+        productImage: req.file.path
     });
     //save is a method provided by mongoose which can be used on mongoose models
     //save will then store this on the database
-    //and we will log teh result of the operation into console
+    //and we will log the result of the operation into console
     //and also we will catch any error and log it to the console
     product
         .save()
@@ -119,6 +121,7 @@ router.post("/", upload.single('productImage'), (req, res, next) => {
 router.get('/:productId', (req, res, next) => {
     const id = req.params.productId;
     Product.findById(id)
+        .select('name price _id productImage')
         .exec()
         .then(doc => {
             console.log("From database", doc);
@@ -126,7 +129,8 @@ router.get('/:productId', (req, res, next) => {
                 res.status(200).json({
                     name: doc.name,
                     price: doc.price,
-                    _id: doc._id
+                    _id: doc._id,
+                    productImage: doc.productImage
                 });
             } else {
                 res.status(404).json({

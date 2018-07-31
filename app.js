@@ -27,8 +27,13 @@ mongoose.connect('mongodb+srv://gagan:gagan@cluster0-cb0uh.mongodb.net/test?retr
 const productRoutes = require('./Api/routes/products');
 const orderRoutes = require('./Api/routes/orders');
 
-//an incoming request has to go through app.use
+// IMP: an incoming request has to go through app.use
+
+// morgan is used for logging
 app.use(morgan('dev'));
+
+//to make a folder static and publically available. Only apply to /uploads
+app.use('/uploads', express.static('uploads'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
