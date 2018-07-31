@@ -1,6 +1,36 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const multer = require('multer');
+//folder for multer to store all incoming files 
+//const upload = multer({ dest: 'uploads/' });
+
+//configure how files should be stored
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads/');
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' ||
+        file.mimetype === 'image/jfif') {
+        cb(null, true);
+    } else {
+        // I could also throw an error like cb(newError('message'), false);
+        // but in this case, i am simply not accepting the file 
+        cb(null, false);
+    }
+}
+const upload = multer({
+    storage: storage,
+    limits: {
+        filesize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+});
 
 //importing the product.js file to make use of thye Product model
 const Product = require('../models/product');
@@ -48,7 +78,8 @@ router.get('/', (req, res, next) => {
         });
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", upload.single('productImage'), (req, res, next) => {
+    console.log(req.file);
     const hostname = req.hostname;
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
