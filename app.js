@@ -26,6 +26,7 @@ mongoose.connect('mongodb+srv://gagan:gagan@cluster0-cb0uh.mongodb.net/test?retr
 
 const productRoutes = require('./Api/routes/products');
 const orderRoutes = require('./Api/routes/orders');
+const userRoutes = require('./Api/routes/users');
 
 // IMP: an incoming request has to go through app.use
 
@@ -53,6 +54,7 @@ app.use((req, res, next) => {
 // incoming routes
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
+app.use('/user', userRoutes);
 
 //to handle errors or handle invlaid requests.
 app.use((req, res, next) => {
