@@ -35,6 +35,7 @@ const upload = multer({
 //importing the product.js file to make use of thye Product model
 const Product = require('../models/product');
 
+//GET all product details
 router.get('/', (req, res, next) => {
     // find() with no args will find all elements
     //you can alsoa dd more queryParameters here
@@ -79,6 +80,7 @@ router.get('/', (req, res, next) => {
         });
 });
 
+//Create a product
 router.post("/", upload.single('productImage'), (req, res, next) => {
     console.log(req.file);
     const hostname = req.hostname;
@@ -118,6 +120,7 @@ router.post("/", upload.single('productImage'), (req, res, next) => {
 
 });
 
+// GET details of a product with productId
 router.get('/:productId', (req, res, next) => {
     const id = req.params.productId;
     Product.findById(id)
@@ -144,6 +147,7 @@ router.get('/:productId', (req, res, next) => {
         });
 });
 
+//Update a product with productId
 router.patch('/:productId', (req, res, next) => {
     const id = req.params.productId;
     const hostname = req.hostname;
@@ -171,6 +175,7 @@ router.patch('/:productId', (req, res, next) => {
         });
 });
 
+//DELETE a product
 router.delete('/:productId', (req, res, next) => {
     const id = req.params.productId;
     Product.remove({ _id: id })

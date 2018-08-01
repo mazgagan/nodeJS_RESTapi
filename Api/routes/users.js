@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 //importing the user.js file to make use of the User model
 const User = require('../models/user');
 
+//User creation api
 router.post('/signup', (req, res, next) => {
     User.find({ email: req.body.email })
         .exec()
@@ -47,4 +48,20 @@ router.post('/signup', (req, res, next) => {
 
 });
 
+//user delete
+router.delete('/:userId', (req, res, next) => {
+    User.remove({ _id: req.params.userId })
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                message: "User deleted"
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
 module.exports = router;
